@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class StackTest {
 
     @Test
-    void testGetSize0Int(){
+    void testGetSize0Int() {
         Stack<Integer> stack = new Stack<>(0);
 
         int expected = 0;
@@ -19,7 +19,7 @@ public class StackTest {
     }
 
     @Test
-    void testGetSize6String(){
+    void testGetSize6String() {
         int expected = 6;
         Stack<String> stack = new Stack<>(expected);
 
@@ -29,7 +29,7 @@ public class StackTest {
     }
 
     @Test
-    void testGetSizeLeftEmptyStack(){
+    void testGetSizeLeftEmptyStack() {
         int expected = 5;
         Stack<String> stack = new Stack<>(expected);
 
@@ -39,44 +39,82 @@ public class StackTest {
     }
 
     @Test
-    void testGetSizeLeftAfterPush(){
+    void testGetSizeLeftAfterPush() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
-        int expected = fillStackGetExpected(1, size, stack);
+        int numberToPush = 1;
+        addItemsToStack(numberToPush, size, stack);
+
+        int expected = size - numberToPush;
         int actual = stack.getSizeLeft();
 
         assertEquals(expected, actual);
     }
 
-    private int fillStackGetExpected(int howMany, int size, Stack<Integer> stack) {
-        for(int i = 0; i<howMany; i++) {
+    private void addItemsToStack(int howMany, int size, Stack<Integer> stack) {
+        for (int i = 0; i < howMany; i++) {
             stack.push(i);
             --size;
         }
-        return size;
     }
 
     @Test
-    void testGetSizeLeftAfterFilling(){
+    void testGetSizeLeftAfterFilling() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
+        int numberToPush = size;
 
-        int expected = fillStackGetExpected(size, size, stack);
+        addItemsToStack(numberToPush, size, stack);
+        int expected = size - numberToPush;
         int actual = stack.getSizeLeft();
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void testPushOverSizeThrowsException(){
+    void testPushOverSizeThrowsException() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
+        addItemsToStack(size, size, stack);
 
-        fillStackGetExpected(size,size,stack);
         assertThrows(StackOverflow.class,
-                ()->stack.push(666)
+                () -> stack.push(666)
         );
     }
-    
+
+    @Test
+    void testToStringEmptyStack() {
+        Stack<Integer> stack = new Stack<>(5);
+
+        String expected = "";
+        String actual = stack.toString();
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    void testToStringAfterOnePush() {
+        int size = 5;
+        Stack<Integer> stack = new Stack<>(size);
+        int numberToPush =1;
+        addItemsToStack(numberToPush, size, stack);
+
+        String expected = "0";
+        String actual = stack.toString();
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    void testToStringAfterFillingStack() {
+        int size = 5;
+        Stack<Integer> stack = new Stack<>(size);
+        addItemsToStack(size, size, stack);
+
+        String expected = "0 1 2 3 4";
+        String actual = stack.toString();
+
+        assertEquals(actual, expected);
+    }
 
 }
