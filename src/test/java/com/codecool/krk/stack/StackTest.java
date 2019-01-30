@@ -43,7 +43,7 @@ public class StackTest {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
         int numberToPush = 1;
-        addItemsToStack(numberToPush, size, stack);
+        addItemsToStack(numberToPush, stack);
 
         int expected = size - numberToPush;
         int actual = stack.getSizeLeft();
@@ -51,10 +51,9 @@ public class StackTest {
         assertEquals(expected, actual);
     }
 
-    private void addItemsToStack(int howMany, int size, Stack<Integer> stack) {
+    private void addItemsToStack(int howMany, Stack<Integer> stack) {
         for (int i = 0; i < howMany; i++) {
             stack.push(i);
-            --size;
         }
     }
 
@@ -64,7 +63,7 @@ public class StackTest {
         Stack<Integer> stack = new Stack<>(size);
         int numberToPush = size;
 
-        addItemsToStack(numberToPush, size, stack);
+        addItemsToStack(numberToPush, stack);
         int expected = size - numberToPush;
         int actual = stack.getSizeLeft();
 
@@ -75,7 +74,7 @@ public class StackTest {
     void testPushOverSizeThrowsException() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
-        addItemsToStack(size, size, stack);
+        addItemsToStack(size, stack);
 
         assertThrows(StackOverflow.class,
                 () -> stack.push(666)
@@ -96,8 +95,8 @@ public class StackTest {
     void testToStringAfterOnePush() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
-        int numberToPush =1;
-        addItemsToStack(numberToPush, size, stack);
+        int numberToPush = 1;
+        addItemsToStack(numberToPush, stack);
 
         String expected = "0";
         String actual = stack.toString();
@@ -109,7 +108,7 @@ public class StackTest {
     void testToStringAfterFillingStack() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
-        addItemsToStack(size, size, stack);
+        addItemsToStack(size, stack);
 
         String expected = "0 1 2 3 4";
         String actual = stack.toString();
@@ -118,17 +117,17 @@ public class StackTest {
     }
 
     @Test
-    void testPeekOnEmptyStackThrowsException(){
+    void testPeekOnEmptyStackThrowsException() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
 
         assertThrows(IndexOutOfBoundsException.class,
-                ()->stack.peek()
+                () -> stack.peek()
         );
     }
 
     @Test
-    void testPeekOn1StringStackSized5(){
+    void testPeekOn1StringStackSized5() {
         Stack<String> stack = new Stack<>(5);
         String expected = "something";
         stack.push(expected);
@@ -139,7 +138,7 @@ public class StackTest {
     }
 
     @Test
-    void testPeekOn1BoolStackSized1(){
+    void testPeekOn1BoolStackSized1() {
         Stack<Boolean> stack = new Stack<>(1);
         Boolean expected = true;
         stack.push(expected);
@@ -150,28 +149,92 @@ public class StackTest {
     }
 
     @Test
-    void testPeekOnMidFilledStack(){
+    void testPeekOnMidFilledStack() {
         int size = 10;
         Stack<Integer> stack = new Stack<>(size);
-        int howMany =6;
-        addItemsToStack(howMany, size, stack);
+        int howMany = 6;
+        addItemsToStack(howMany, stack);
 
-        int expected = howMany-1;
+        int expected = howMany - 1;
         int acutal = stack.peek();
 
         assertEquals(expected, acutal);
     }
 
     @Test
-    void testPeekOnFullStack(){
+    void testPeekOnFullStack() {
         int size = 5;
         Stack<Integer> stack = new Stack<>(size);
-        addItemsToStack(size, size, stack);
+        addItemsToStack(size,  stack);
 
         int expected = 4;
         int actual = stack.peek();
 
         assertEquals(expected, actual);
     }
-    
+
+    @Test
+    void testPopOn1StringStackSized1() {
+        int size = 1;
+        Stack<String> stack = new Stack<>(size);
+        String expected = "something";
+        stack.push(expected);
+
+        String actual = stack.pop();
+
+        assertEquals(expected, actual);
+        assertEquals(size, stack.getSizeLeft());
+    }
+
+    @Test
+    void testPopOnEmptyStackThrowsException() {
+        Stack<String> stack = new Stack<>(5);
+
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> stack.pop()
+        );
+    }
+
+    @Test
+    void testPopOn1BooleanStackSized5() {
+        int size = 5;
+        Stack<Boolean> stack = new Stack<>(size);
+        Boolean expected = true;
+        stack.push(expected);
+
+        Boolean actual = stack.pop();
+
+        assertEquals(expected, actual);
+        assertEquals(size, stack.getSizeLeft());
+    }
+
+    @Test
+    void testPopOnMidFilledStackOfInts() {
+        int size = 10;
+        Stack<Integer> stack = new Stack<>(size);
+        addItemsToStack(5, stack );
+
+        int expected = 4;
+        String expectedStr = "0 1 2 3";
+        int actual = stack.pop();
+        String actualStr = stack.toString();
+
+        assertEquals(expected, actual);
+        assertEquals(expectedStr, actualStr);
+    }
+
+    @Test
+    void testPopOnFullStackOfInts() {
+        int size = 10;
+        Stack<Integer> stack = new Stack<>(size);
+        addItemsToStack(size, stack );
+
+        int expected = 9;
+        String expectedStr = "0 1 2 3 4 5 6 7 8";
+        int actual = stack.pop();
+        String actualStr = stack.toString();
+
+        assertEquals(expected, actual);
+        assertEquals(expectedStr, actualStr);
+    }
 }
