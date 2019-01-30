@@ -33,6 +33,10 @@ public class Stack<T> {
         return this.stack[index-1];
     }
 
+    public T pop(){
+        return this.stack[--index];
+    }
+
     public String toString(){
         StringBuilder builder = new StringBuilder();
         for(int i =0; i<index; i++){
