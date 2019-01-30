@@ -29,6 +29,10 @@ public class Stack<T> {
         ++this.index;
     }
 
+    public T peek(){
+        return this.stack[index-1];
+    }
+
     public String toString(){
         StringBuilder builder = new StringBuilder();
         for(int i =0; i<index; i++){
